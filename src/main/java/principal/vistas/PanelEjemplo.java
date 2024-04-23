@@ -10,7 +10,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import principal.controladores.ControladorContratoJPA;
 import principal.controladores.DatosDeTabla;
+import principal.entidades.Contrato;
 
 
 public class PanelEjemplo extends JPanel {
@@ -52,9 +54,11 @@ public class PanelEjemplo extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setLeftComponent(scrollPane);
-		
-		table = new JTable();
+		this.dtm = getDefaultTableModelNoEditable();
+		table = new JTable(dtm);
 		scrollPane.setViewportView(table);
+		
+		
 
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -62,14 +66,30 @@ public class PanelEjemplo extends JPanel {
 				super.mouseClicked(e);
 				int indiceFilaSel = table.getSelectedRow();		
 				Object value = datosEnTabla[indiceFilaSel][0];
-				Estudiante estselecc = ControladorEstudianteJPA.getInstance().obtenerEstudiantePorId((Integer)value);
-				PanelEstudiante2 panelestudiante2 = new PanelEstudiante2(estselecc);
-				JScrollPane scrollpane2 = new JScrollPane(panelestudiante2);
+				Contrato estselecc = ControladorContratoJPA.getInstance().obtenerContratoPorId((Integer)value);
+				PanelGestionContrato panelgc = new PanelGestionContrato(estselecc);
+				JScrollPane scrollpane2 = new JScrollPane(panelgc);
 				splitPane.setRightComponent(scrollpane2);
 				splitPane.setResizeWeight(0.25);
 			}
 		});
 
+	}
+	private DefaultTableModel getDefaultTableModelNoEditable () {
+		DefaultTableModel dtm = new DefaultTableModel(datosEnTabla, titulosEnTabla) {
+			
+			/**
+			 * La sobreescritura de este método nos permite controlar qué celdas queremos que sean editables
+			 */
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column != 1) {
+					return false;
+				}
+				return true;
+			}
+		};
+		return dtm;
 	}
 
 }

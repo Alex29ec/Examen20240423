@@ -2,9 +2,15 @@ package principal.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Usuario {
+@Table(name="usuario")
+public class Usuario extends Entidad{
+@Override
+	public String toString() {
+		return  nombreUsuario;
+	}
 @Id
 int id;
 String nombreUsuario, password,email,colorPreferido;

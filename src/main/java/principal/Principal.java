@@ -8,6 +8,7 @@ import principal.vistas.PanelEjemplo;
 
 public class Principal extends JFrame{
 	static Principal instance = null;
+	PanelEjemplo panel = new PanelEjemplo();
 	public static Principal getInstance() {
 		if(instance == null) {
 			instance = new Principal();
@@ -18,13 +19,13 @@ public class Principal extends JFrame{
 	JTabbedPane panelTabbed;
 	
 	public Principal() {
-		
-		super("Gestion de centro educativo");
+		super("Gestion de Articulo");
 		this.setBounds(0,0,800,600);
-		panelTabbed = new JTabbedPane();
-		PanelEjemplo paneltabla= PanelEjemplo.getInstance();
-		panelTabbed.add("PanelTabla",paneltabla);
+		this.getContentPane().add(panel);
+		
+		
 	}
+	
 	public static void main(String[] args) {
 		Principal.getInstance().setVisible(true);
 	}
